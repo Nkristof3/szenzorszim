@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.2-internal"
+            xmlns:fx="http://javafx.com/fxml/1" fx:controller="Szerver">
+    <children>
+        <TitledPane animated="false" layoutX="31.0" layoutY="29.0" text="Csatlakozott">
+            <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="292.0" prefWidth="225.0">
+                    <children>
+                        <CheckBox fx:id="konyhaBox" layoutX="30.0" layoutY="14.0" mnemonicParsing="false"
+                                  text="Konyha"/>
+                        <CheckBox layoutX="30.0" layoutY="42.0" mnemonicParsing="false" text="Hálószoba"/>
+                        <CheckBox layoutX="30.0" layoutY="70.0" mnemonicParsing="false" text="Nappali"/>
+                        <CheckBox layoutX="30.0" layoutY="99.0" mnemonicParsing="false" text="Mosdó"/>
+                    </children>
+                </AnchorPane>
+            </content>
+        </TitledPane>
+        <TextArea fx:id="txtAreaDisplay" layoutX="325.0" layoutY="29.0" prefHeight="320.0" prefWidth="260.0"/>
+    </children>
+</AnchorPane>
