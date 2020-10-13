@@ -3,6 +3,7 @@ import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
@@ -32,6 +33,62 @@ public class Kliens extends Application {
     @Override
     public void stop() throws Exception {
         socket.close();
+    }
+
+    public void createClient(String nev, String kep_neve, Stage ablak){
+        //pane to hold scroll pane and HBox
+        txtAreaDisplay = new TextArea();
+        VBox vBox = new VBox(5);
+        gridPane = new GridPane();
+        scrollPane = new ScrollPane();
+        vBox.setPrefSize(300, 350);
+        vBox.setAlignment(Pos.TOP_CENTER);
+        vBox.setStyle("-fx-background-image: url('"+kep_neve+"');" +
+                "-fx-background-repeat: stretch;" +
+                "-fx-background-size: 350 300;" +
+                "-fx-background-position: center center;");
+
+        scrollPane.setContent(vBox);
+        scrollPane.setFitToHeight(true);
+        scrollPane.setFitToWidth(true);
+        gridPane.add(scrollPane, 1, 1);
+        gridPane.getRowConstraints().add(new RowConstraints(30));
+        gridPane.add(txtAreaDisplay, 1, 2);
+        GridPane.setMargin(scrollPane, new Insets(10, 10, 10, 10));
+        GridPane.setMargin(txtAreaDisplay, new Insets(10, 10, 10, 10));
+
+        vBox.hoverProperty().addListener((ChangeListener<Boolean>) (observable, value, newValue) -> {
+            if (newValue) {
+                try {
+                    output.writeUTF("be");
+                    /*scrollPane.setStyle("-fx-border-color: yellow;" +
+                            "-fx-border-width: 15;" +
+                            "-fx-opacity: 1.0");*/
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                try {
+                    output.writeUTF("ki");
+
+                    scrollPane.setStyle("-fx-border-color: black;" +
+                            "-fx-border-width: 15;" +
+                            "-fx-opacity: 0.5");
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+        });
+
+
+        //create a scene and display
+        Scene scene = new Scene(gridPane, 450, 500);
+        ablak.setTitle(nev + " szenzor");
+        ablak.setScene(scene);
+        ablak.show();
     }
 
     @Override
@@ -86,7 +143,7 @@ public class Kliens extends Application {
 
         //create a scene and display
         Scene scene = new Scene(gridPane, 450, 500);
-        primaryStage.setTitle("Konyha szenzor");
+        primaryStage.setTitle(txtName + " szenzor");
         primaryStage.setScene(scene);
         primaryStage.show();
 

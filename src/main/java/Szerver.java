@@ -46,7 +46,7 @@ public class Szerver extends Application {
         konyhaBox = new CheckBox();
         konyhaBox.setText("Konyha");
         nappaliBox = new CheckBox();
-        nappaliBox.setText("Nappali");
+        nappaliBox.setText("Nappali"); //proba
 
         RowConstraints con = new RowConstraints();
         con.setPrefHeight(30);
