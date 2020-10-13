@@ -18,6 +18,7 @@ import java.net.Socket;
 
 public class Kliens extends Application {
     /*TextField txtName;*/
+    /*Most ezt irom*/
     String txtName = "Konyha";
     TextField txtInput;
     public GridPane gridPane;
