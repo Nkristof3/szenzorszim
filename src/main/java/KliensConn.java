@@ -4,6 +4,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Date;
 
 public class KliensConn implements Runnable {
     Socket socket;
@@ -20,6 +21,8 @@ public class KliensConn implements Runnable {
     @Override
     public void run() {
 
+        String nev = "";
+
         try {
             // Create data input and output streams
             input = new DataInputStream(
@@ -33,22 +36,24 @@ public class KliensConn implements Runnable {
 
                 if (message.equals("Konyha") && !server.konyhaBox.isSelected()) {
                     server.konyhaBox.setSelected(true);
+                    nev = "konyha";
                 } else if (message.equals("Nappali") && !server.nappaliBox.isSelected()) {
                     server.nappaliBox.setSelected(true);
+                    nev = "nappali";
                 }
 
                 if (message.equals("be")) {
                     sendMessage("+");
+                    String log = "Mozgás: " + nev + " " + "\n";
+                    //append message of the Text Area of UI (GUI Thread)
+                    Platform.runLater(() -> {
+                        server.txtAreaDisplay.appendText(log);
+                    });
                 }
 
 
                 //send message via server broadcast
-                server.broadcast(message);
-
-                //append message of the Text Area of UI (GUI Thread)
-                Platform.runLater(() -> {
-                    server.txtAreaDisplay.appendText(message + "\n");
-                });
+                //server.broadcast(message);
             }
 
 

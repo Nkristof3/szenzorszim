@@ -7,11 +7,13 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
@@ -144,6 +146,8 @@ public class Kliens extends Application {
         //create a scene and display
         Scene scene = new Scene(gridPane, 450, 500);
         primaryStage.setTitle(txtName + " szenzor");
+        primaryStage.setResizable(true);
+        primaryStage.getIcons().add(new Image("konyhaikon.png"));
         primaryStage.setScene(scene);
         primaryStage.show();
 

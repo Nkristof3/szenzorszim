@@ -3,6 +3,7 @@ import javafx.application.Platform;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Date;
 
 public class TaskRead implements Runnable {
     //private variables
@@ -31,13 +32,15 @@ public class TaskRead implements Runnable {
                     client.scrollPane.setStyle("-fx-border-color: yellow;" +
                             "-fx-border-width: 15;" +
                             "-fx-opacity: 1.0");
+
+                    //append message of the Text Area of UI (GUI Thread)
+                    String kiirat = "Mozgás. " + new Date() + "\n";
+                    Platform.runLater(() -> {
+                        //display the message in the textarea
+                        client.txtAreaDisplay.appendText(kiirat);
+                    });
                 }
 
-                //append message of the Text Area of UI (GUI Thread)
-                Platform.runLater(() -> {
-                    //display the message in the textarea
-                    client.txtAreaDisplay.appendText(message + "\n");
-                });
             } catch (IOException ex) {
                 System.out.println("Error reading from server: " + ex.getMessage());
                 ex.printStackTrace();

@@ -46,7 +46,7 @@ public class Szerver extends Application {
         konyhaBox = new CheckBox();
         konyhaBox.setText("Konyha");
         nappaliBox = new CheckBox();
-        nappaliBox.setText("Nappali"); //proba123
+        nappaliBox.setText("Nappali");
 
         //tortenjen valami
         RowConstraints con = new RowConstraints();
@@ -80,12 +80,6 @@ public class Szerver extends Application {
         primaryStage.setResizable(true);
         primaryStage.getIcons().add(new Image("control.png"));
         primaryStage.show(); // Display the stage
-
-
-        /*Parent root = FXMLLoader.load(getClass().getResource("Szerver.fxml"));
-        Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
-        primaryStage.show(); // Display the stage*/
 
         //create a new thread
         Thread t = new Thread(() -> {
