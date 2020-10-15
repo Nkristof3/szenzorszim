@@ -12,6 +12,7 @@ public class KliensConn implements Runnable {
     // Create data input and output streams
     DataInputStream input;
     DataOutputStream output;
+    String nev = "";
 
     public KliensConn(Socket socket, Szerver server) {
         this.socket = socket;
@@ -21,7 +22,6 @@ public class KliensConn implements Runnable {
     @Override
     public void run() {
 
-        String nev = "";
 
         try {
             // Create data input and output streams
