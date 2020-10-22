@@ -3,6 +3,7 @@ import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
@@ -25,6 +26,10 @@ public class Szerver extends Application {
     public TextArea txtAreaDisplay;
     public CheckBox konyhaBox;
     public CheckBox nappaliBox;
+    public CheckBox ebedloBox;
+    public CheckBox furdoBox;
+    public CheckBox haloszobaBox;
+    private Label felirat;
     List<KliensConn> connectionList = new ArrayList<KliensConn>();
     ServerSocket serverSocket;
     /*@FXML
@@ -41,14 +46,20 @@ public class Szerver extends Application {
         // Text area for displaying contents
         txtAreaDisplay = new TextArea();
         txtAreaDisplay.setEditable(false);
-        txtAreaDisplay.setPrefHeight(300);
+        txtAreaDisplay.setPrefHeight(400);
         txtAreaDisplay.setPrefWidth(250);
         konyhaBox = new CheckBox();
         konyhaBox.setText("Konyha");
         nappaliBox = new CheckBox();
         nappaliBox.setText("Nappali");
+        ebedloBox = new CheckBox();
+        ebedloBox.setText("Ebédlő");
+        furdoBox = new CheckBox();
+        furdoBox.setText("Fürdő");
+        haloszobaBox = new CheckBox();
+        haloszobaBox.setText("Hálószoba");
+        felirat = new Label();
 
-        //tortenjen valami
         RowConstraints con = new RowConstraints();
         con.setPrefHeight(30);
 
@@ -56,25 +67,32 @@ public class Szerver extends Application {
         TitledPane titledPane = new TitledPane();
 
         VBox vBox = new VBox(10);
-        vBox.getChildren().addAll(konyhaBox, nappaliBox);
+        vBox.getChildren().addAll(konyhaBox, nappaliBox, ebedloBox, furdoBox,haloszobaBox);
         titledPane.setContent(vBox);
         titledPane.setText("Csatlakozott: ");
 
 
-        gridPane.setStyle("-fx-background-color: rgb(60, 179, 113);" /*+
+        gridPane.setStyle("-fx-background-color: rgb(60, 179, 113);" +
                 "-fx-background-radius: 30;" +
-                "-fx-border-radius: 30;" +
-                "-fx-border-width:2;" +
-                "-fx-border-color:black;"*/);
-        gridPane.add(titledPane, 1, 1);
-        gridPane.add(txtAreaDisplay, 2, 1);
+                "-fx-border-radius: 20;" +
+                "-fx-border-width:10;" +
+                "-fx-border-color:grey;");
+        felirat.setText("Vezérlő panel");
+        felirat.setStyle("-fx-font-size: 22px;" +
+                "-fx-text-fill: white;" +
+                "-fx-font-weight: bold;");
+        gridPane.add(felirat, 1, 1);
+        gridPane.add(titledPane, 1, 2);
+        gridPane.add(txtAreaDisplay, 2, 2);
         ColumnConstraints columnConstraints = new ColumnConstraints(40);
         gridPane.getColumnConstraints().add(columnConstraints);
         GridPane.setMargin(txtAreaDisplay, new Insets(30, 10, 10, 60));
+        GridPane.setMargin(titledPane, new Insets(0, 20, 80, 20));
+        GridPane.setMargin(felirat, new Insets(20, 0, 0, 0));
 
 
         // Create a scene and place it in the stage
-        Scene scene = new Scene(gridPane, 450, 400);
+        Scene scene = new Scene(gridPane, 500, 400);
         primaryStage.setTitle("Szerver"); // Set the stage title
         primaryStage.setScene(scene); // Place the scene in the stage
         primaryStage.setResizable(true);
