@@ -3,6 +3,7 @@ import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TitledPane;
 import javafx.scene.image.Image;
@@ -25,6 +26,9 @@ public class Szerver extends Application {
     public TextArea txtAreaDisplay;
     public CheckBox konyhaBox;
     public CheckBox nappaliBox;
+    public CheckBox ebedloBox;
+    public CheckBox furdoBox;
+    public CheckBox haloszobaBox;
     List<KliensConn> connectionList = new ArrayList<KliensConn>();
     ServerSocket serverSocket;
     /*@FXML
@@ -38,15 +42,26 @@ public class Szerver extends Application {
     @Override // Override the start method in the Application class
     public void start(Stage primaryStage) throws IOException {
 
+
+
         // Text area for displaying contents
         txtAreaDisplay = new TextArea();
         txtAreaDisplay.setEditable(false);
         txtAreaDisplay.setPrefHeight(300);
         txtAreaDisplay.setPrefWidth(250);
+
+
         konyhaBox = new CheckBox();
         konyhaBox.setText("Konyha");
         nappaliBox = new CheckBox();
         nappaliBox.setText("Nappali");
+        ebedloBox = new CheckBox();
+        ebedloBox.setText("Ebédlő");
+        furdoBox = new CheckBox();
+        furdoBox.setText("Fürdő");
+        haloszobaBox = new CheckBox();
+        haloszobaBox.setText("Hálószoba");
+
 
         RowConstraints con = new RowConstraints();
         con.setPrefHeight(30);
@@ -55,7 +70,7 @@ public class Szerver extends Application {
         TitledPane titledPane = new TitledPane();
 
         VBox vBox = new VBox(10);
-        vBox.getChildren().addAll(konyhaBox, nappaliBox);
+        vBox.getChildren().addAll(konyhaBox, nappaliBox, ebedloBox, furdoBox,haloszobaBox);
         titledPane.setContent(vBox);
         titledPane.setText("Csatlakozott: ");
 
@@ -102,6 +117,7 @@ public class Szerver extends Application {
                     Socket socket = serverSocket.accept();
                     KliensConn connection = new KliensConn(socket, this);
                     connectionList.add(connection);
+
 
                     //create a new thread
                     Thread thread = new Thread(connection);
