@@ -75,11 +75,11 @@ public class Szerver extends Application {
         titledPane.setText("Csatlakozott: ");
 
 
-        gridPane.setStyle("-fx-background-color: rgb(60, 179, 113);" /*+
+        gridPane.setStyle("-fx-background-color: rgb(60, 179, 113);"+
                 "-fx-background-radius: 30;" +
-                "-fx-border-radius: 30;" +
-                "-fx-border-width:2;" +
-                "-fx-border-color:black;"*/);
+                "-fx-border-radius: 20;" +
+                "-fx-border-width:10;" +
+                "-fx-border-color:grey;");
         gridPane.add(titledPane, 1, 1);
         gridPane.add(txtAreaDisplay, 2, 1);
         ColumnConstraints columnConstraints = new ColumnConstraints(40);
