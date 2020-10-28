@@ -43,7 +43,7 @@ public class KliensConn implements Runnable {
                 }
 
                 if (message.equals("be")) {
-                    sendMessage("+");
+                    sendMessage("+" + nev);
                     String log = "Mozgás: " + nev + " " + "\n";
                     //append message of the Text Area of UI (GUI Thread)
                     Platform.runLater(() -> {

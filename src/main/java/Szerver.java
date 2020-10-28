@@ -1,5 +1,6 @@
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
@@ -115,7 +116,11 @@ public class Szerver extends Application {
                     Socket socket = serverSocket.accept();
                     KliensConn connection = new KliensConn(socket, this);
                     connectionList.add(connection);
+                    System.out.println(connection.nev);
 
+                    for (int i = 0; i < connectionList.size(); i++) {
+                        System.out.println(connectionList.get(i) + "\n");
+                    }
                     //create a new thread
                     Thread thread = new Thread(connection);
                     thread.start();
