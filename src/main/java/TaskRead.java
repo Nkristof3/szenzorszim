@@ -9,12 +9,18 @@ public class TaskRead implements Runnable {
     //private variables
     Socket socket;
     Kliens client;
+    Kliens2 client2;
     DataInputStream input;
 
     //constructor
     public TaskRead(Socket socket, Kliens client) {
         this.socket = socket;
         this.client = client;
+    }
+
+    public TaskRead(Socket socket, Kliens2 client2){
+        this.socket = socket;
+        this.client2 = client2;
     }
 
     @Override
@@ -28,7 +34,7 @@ public class TaskRead implements Runnable {
                 //get input from the server
                 String message = input.readUTF();
 
-                if (message.equals("+")) {
+                if (message.equals("+konyha")) {
                     client.scrollPane.setStyle("-fx-border-color: yellow;" +
                             "-fx-border-width: 15;" +
                             "-fx-opacity: 1.0");
@@ -38,6 +44,16 @@ public class TaskRead implements Runnable {
                     Platform.runLater(() -> {
                         //display the message in the textarea
                         client.txtAreaDisplay.appendText(kiirat);
+                    });
+                }
+                else if (message.equals("+nappali")){
+                    client2.scrollPane.setStyle("-fx-border-color: yellow;" +
+                            "-fx-border-width: 15;" +
+                            "-fx-opacity: 1.0");
+                    String kiirat = "Mozgás. " + new Date() + "\n";
+                    Platform.runLater(() -> {
+                        //display the message in the textarea
+                        client2.txtAreaDisplay.appendText(kiirat);
                     });
                 }
 
