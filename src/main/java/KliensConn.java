@@ -4,6 +4,7 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.sql.Time;
 import java.util.Date;
 
 public class KliensConn implements Runnable {
@@ -40,20 +41,29 @@ public class KliensConn implements Runnable {
                 } else if (message.equals("Nappali") && !server.nappaliBox.isSelected()) {
                     server.nappaliBox.setSelected(true);
                     nev = "nappali";
+                } else if (message.equals("Ebedlo") && !server.nappaliBox.isSelected()) {
+                    server.ebedloBox.setSelected(true);
+                    nev = "ebédlő";
+                } else if (message.equals("Furdo") && !server.furdoBox.isSelected()) {
+                    server.furdoBox.setSelected(true);
+                    nev = "furdo";
                 }
 
                 if (message.equals("be")) {
                     sendMessage("+" + nev);
-                    String log = "Mozgás: " + nev + " " + "\n";
+                    String log = "Mozgás: " + nev + " " + new Date() + "\n";
+                    //append message of the Text Area of UI (GUI Thread)
+                    Platform.runLater(() -> {
+                        server.txtAreaDisplay.appendText(log);
+                    });
+                } else if (message.equals("ki")) {
+                    sendMessage("-" + nev);
+                    String log = "Mozgás vége: " + nev + " " + new Date() + "\n";
                     //append message of the Text Area of UI (GUI Thread)
                     Platform.runLater(() -> {
                         server.txtAreaDisplay.appendText(log);
                     });
                 }
-
-
-                //send message via server broadcast
-                //server.broadcast(message);
             }
 
 

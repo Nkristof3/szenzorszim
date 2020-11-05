@@ -8,19 +8,31 @@ import java.util.Date;
 public class TaskRead implements Runnable {
     //private variables
     Socket socket;
-    Kliens client;
-    Kliens2 client2;
+    Konyha client;
+    Nappali client2;
+    Ebedlo client3;
+    Furdo client4;
     DataInputStream input;
 
     //constructor
-    public TaskRead(Socket socket, Kliens client) {
+    public TaskRead(Socket socket, Konyha client) {
         this.socket = socket;
         this.client = client;
     }
 
-    public TaskRead(Socket socket, Kliens2 client2){
+    public TaskRead(Socket socket, Nappali client2){
         this.socket = socket;
         this.client2 = client2;
+    }
+
+    public TaskRead(Socket socket, Ebedlo client3){
+        this.socket = socket;
+        this.client3 = client3;
+    }
+
+    public TaskRead(Socket socket, Furdo client4) {
+        this.socket = socket;
+        this.client4 = client4;
     }
 
     @Override
@@ -54,6 +66,64 @@ public class TaskRead implements Runnable {
                     Platform.runLater(() -> {
                         //display the message in the textarea
                         client2.txtAreaDisplay.appendText(kiirat);
+                    });
+                }
+                else if (message.equals("+ebédlő")){
+                    client3.scrollPane.setStyle("-fx-border-color: yellow;" +
+                            "-fx-border-width: 15;" +
+                            "-fx-opacity: 1.0");
+                    String kiirat = "Mozgás. " + new Date() + "\n";
+                    Platform.runLater(() -> {
+                        //display the message in the textarea
+                        client3.txtAreaDisplay.appendText(kiirat);
+                    });
+                }
+                else if (message.equals("-konyha")){
+                    client.scrollPane.setStyle("-fx-border-color: black;" +
+                            "-fx-border-width: 15;" +
+                            "-fx-opacity: 0.5");
+                    String kiirat = "Mozgás vége. " + new Date() + "\n";
+                    Platform.runLater(() -> {
+                        //display the message in the textarea
+                        client.txtAreaDisplay.appendText(kiirat);
+                    });
+                }
+                else if (message.equals("-nappali")){
+                    client2.scrollPane.setStyle("-fx-border-color: black;" +
+                            "-fx-border-width: 15;" +
+                            "-fx-opacity: 0.5");
+                    String kiirat = "Mozgás vége. " + new Date() + "\n";
+                    Platform.runLater(() -> {
+                        //display the message in the textarea
+                        client2.txtAreaDisplay.appendText(kiirat);
+                    });
+                }
+                else if (message.equals("-ebédlő")){
+                    client3.scrollPane.setStyle("-fx-border-color: black;" +
+                            "-fx-border-width: 15;" +
+                            "-fx-opacity: 0.5");
+                    String kiirat = "Mozgás vége. " + new Date() + "\n";
+                    Platform.runLater(() -> {
+                        //display the message in the textarea
+                        client3.txtAreaDisplay.appendText(kiirat);
+                    });
+                } else if (message.equals("+furdo")){
+                    client4.scrollPane.setStyle("-fx-border-color: yellow;" +
+                            "-fx-border-width: 15;" +
+                            "-fx-opacity: 1.0");
+                    String kiirat = "Mozgás. " + new Date() + "\n";
+                    Platform.runLater(() -> {
+                        //display the message in the textarea
+                        client4.txtAreaDisplay.appendText(kiirat);
+                    });
+                } else if (message.equals("-furdo")){
+                    client4.scrollPane.setStyle("-fx-border-color: black;" +
+                            "-fx-border-width: 15;" +
+                            "-fx-opacity: 0.5");
+                    String kiirat = "Mozgás vége. " + new Date() + "\n";
+                    Platform.runLater(() -> {
+                        //display the message in the textarea
+                        client4.txtAreaDisplay.appendText(kiirat);
                     });
                 }
 

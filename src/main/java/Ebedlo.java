@@ -19,9 +19,9 @@ import java.io.IOException;
 import java.net.Socket;
 
 
-public class Kliens2 extends Application {
+public class Ebedlo extends Application {
 
-    String txtName = "Nappali";
+    String txtName = "Ebedlo";
     TextField txtInput;
     public GridPane gridPane;
     public ScrollPane scrollPane;
@@ -36,7 +36,8 @@ public class Kliens2 extends Application {
         socket.close();
     }
 
-    public void createClient(String nev, String kep_neve, Stage ablak){
+    @Override
+    public void start(Stage primaryStage) {
         //pane to hold scroll pane and HBox
         txtAreaDisplay = new TextArea();
         VBox vBox = new VBox(5);
@@ -44,7 +45,7 @@ public class Kliens2 extends Application {
         scrollPane = new ScrollPane();
         vBox.setPrefSize(300, 350);
         vBox.setAlignment(Pos.TOP_CENTER);
-        vBox.setStyle("-fx-background-image: url('"+kep_neve+"');" +
+        vBox.setStyle("-fx-background-image: url('ebedlo.jpg');" +
                 "-fx-background-repeat: stretch;" +
                 "-fx-background-size: 350 300;" +
                 "-fx-background-position: center center;");
@@ -62,83 +63,16 @@ public class Kliens2 extends Application {
             if (newValue) {
                 try {
                     output.writeUTF("be");
-                    /*scrollPane.setStyle("-fx-border-color: yellow;" +
-                            "-fx-border-width: 15;" +
-                            "-fx-opacity: 1.0");*/
-
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             } else {
                 try {
                     output.writeUTF("ki");
-
-                    scrollPane.setStyle("-fx-border-color: black;" +
-                            "-fx-border-width: 15;" +
-                            "-fx-opacity: 0.5");
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-
-
-        });
-
-
-        //create a scene and display
-        Scene scene = new Scene(gridPane, 450, 500);
-        ablak.setTitle(nev + " szenzor");
-        ablak.setScene(scene);
-        ablak.show();
-    }
-
-    @Override
-    public void start(Stage primaryStage) {
-        //pane to hold scroll pane and HBox
-        txtAreaDisplay = new TextArea();
-        VBox vBox = new VBox(5);
-        gridPane = new GridPane();
-        scrollPane = new ScrollPane();
-        vBox.setPrefSize(300, 350);
-        vBox.setAlignment(Pos.TOP_CENTER);
-        vBox.setStyle("-fx-background-image: url('3455.jpg');" +
-                "-fx-background-repeat: stretch;" +
-                "-fx-background-size: 400 350;" +
-                "-fx-background-position: center center;");
-
-        scrollPane.setContent(vBox);
-        scrollPane.setFitToHeight(true);
-        scrollPane.setFitToWidth(true);
-        gridPane.add(scrollPane, 1, 1);
-        gridPane.getRowConstraints().add(new RowConstraints(30));
-        gridPane.add(txtAreaDisplay, 1, 2);
-        GridPane.setMargin(scrollPane, new Insets(10, 10, 10, 10));
-        GridPane.setMargin(txtAreaDisplay, new Insets(10, 10, 10, 10));
-
-        vBox.hoverProperty().addListener((ChangeListener<Boolean>) (observable, value, newValue) -> {
-            if (newValue) {
-                try {
-                    output.writeUTF("be");
-                    /*scrollPane.setStyle("-fx-border-color: yellow;" +
-                            "-fx-border-width: 15;" +
-                            "-fx-opacity: 1.0");*/
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-                try {
-                    output.writeUTF("ki");
-
-                    scrollPane.setStyle("-fx-border-color: black;" +
-                            "-fx-border-width: 15;" +
-                            "-fx-opacity: 0.5");
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-
-
         });
 
 
@@ -146,7 +80,7 @@ public class Kliens2 extends Application {
         Scene scene = new Scene(gridPane, 450, 500);
         primaryStage.setTitle(txtName + " szenzor");
         primaryStage.setResizable(true);
-        primaryStage.getIcons().add(new Image("41764.png"));
+        primaryStage.getIcons().add(new Image("vector60-784-01.jpg"));
         primaryStage.setScene(scene);
         primaryStage.show();
 
