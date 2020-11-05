@@ -48,7 +48,7 @@ public class Szerver extends Application {
         txtAreaDisplay = new TextArea();
         txtAreaDisplay.setEditable(false);
         txtAreaDisplay.setPrefHeight(400);
-        txtAreaDisplay.setPrefWidth(250);
+        txtAreaDisplay.setPrefWidth(330);
         konyhaBox = new CheckBox();
         konyhaBox.setText("Konyha");
         nappaliBox = new CheckBox();
@@ -93,7 +93,7 @@ public class Szerver extends Application {
 
 
         // Create a scene and place it in the stage
-        Scene scene = new Scene(gridPane, 500, 400);
+        Scene scene = new Scene(gridPane, 580, 400);
         primaryStage.setTitle("Szerver"); // Set the stage title
         primaryStage.setScene(scene); // Place the scene in the stage
         primaryStage.setResizable(true);
