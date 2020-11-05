@@ -3,17 +3,30 @@ import javafx.application.Platform;
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Date;
 
 public class TaskRead implements Runnable {
     //private variables
     Socket socket;
-    Kliens client;
+    Konyha client;
+    Nappali client2;
+    Furdo client3;
     DataInputStream input;
 
     //constructor
-    public TaskRead(Socket socket, Kliens client) {
+    public TaskRead(Socket socket, Konyha client) {
         this.socket = socket;
         this.client = client;
+    }
+
+    public TaskRead(Socket socket, Nappali client2){
+        this.socket = socket;
+        this.client2 = client2;
+    }
+
+    public TaskRead(Socket socket,Furdo client3) {
+        this.socket = socket;
+        this.client3 = client3;
     }
 
     @Override
@@ -27,17 +40,41 @@ public class TaskRead implements Runnable {
                 //get input from the server
                 String message = input.readUTF();
 
-                if (message.equals("+")) {
+                //System.out.println( message );
+
+                if (message.equals("+konyha")) {
                     client.scrollPane.setStyle("-fx-border-color: yellow;" +
                             "-fx-border-width: 15;" +
                             "-fx-opacity: 1.0");
+
+                    //append message of the Text Area of UI (GUI Thread)
+                    String kiirat = "Mozgás. " + new Date() + "\n";
+                    Platform.runLater(() -> {
+                        //display the message in the textarea
+                        client.txtAreaDisplay.appendText(kiirat);
+                    });
+                }
+                else if (message.equals("+nappali")){
+                    client2.scrollPane.setStyle("-fx-border-color: yellow;" +
+                            "-fx-border-width: 15;" +
+                            "-fx-opacity: 1.0");
+                    String kiirat = "Mozgás. " + new Date() + "\n";
+                    Platform.runLater(() -> {
+                        //display the message in the textarea
+                        client2.txtAreaDisplay.appendText(kiirat);
+                    });
+                }
+                else if (message.equals("+furdo")){
+                    client3.scrollPane.setStyle("-fx-border-color: yellow;" +
+                            "-fx-border-width: 15;" +
+                            "-fx-opacity: 1.0");
+                    String kiirat = "Mozgás. " + new Date() + "\n";
+                    Platform.runLater(() -> {
+                        //display the message in the textarea
+                        client3.txtAreaDisplay.appendText(kiirat);
+                    });
                 }
 
-                //append message of the Text Area of UI (GUI Thread)
-                Platform.runLater(() -> {
-                    //display the message in the textarea
-                    client.txtAreaDisplay.appendText(message + "\n");
-                });
             } catch (IOException ex) {
                 System.out.println("Error reading from server: " + ex.getMessage());
                 ex.printStackTrace();

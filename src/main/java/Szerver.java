@@ -1,5 +1,6 @@
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
@@ -29,6 +30,7 @@ public class Szerver extends Application {
     public CheckBox ebedloBox;
     public CheckBox furdoBox;
     public CheckBox haloszobaBox;
+    private Label felirat;
     List<KliensConn> connectionList = new ArrayList<KliensConn>();
     ServerSocket serverSocket;
     /*@FXML
@@ -42,15 +44,11 @@ public class Szerver extends Application {
     @Override // Override the start method in the Application class
     public void start(Stage primaryStage) throws IOException {
 
-
-
         // Text area for displaying contents
         txtAreaDisplay = new TextArea();
         txtAreaDisplay.setEditable(false);
-        txtAreaDisplay.setPrefHeight(300);
+        txtAreaDisplay.setPrefHeight(400);
         txtAreaDisplay.setPrefWidth(250);
-
-
         konyhaBox = new CheckBox();
         konyhaBox.setText("Konyha");
         nappaliBox = new CheckBox();
@@ -61,7 +59,7 @@ public class Szerver extends Application {
         furdoBox.setText("Fürdő");
         haloszobaBox = new CheckBox();
         haloszobaBox.setText("Hálószoba");
-
+        felirat = new Label();
 
         RowConstraints con = new RowConstraints();
         con.setPrefHeight(30);
@@ -75,31 +73,32 @@ public class Szerver extends Application {
         titledPane.setText("Csatlakozott: ");
 
 
-        gridPane.setStyle("-fx-background-color: rgb(60, 179, 113);"+
+        gridPane.setStyle("-fx-background-color: rgb(60, 179, 113);" +
                 "-fx-background-radius: 30;" +
                 "-fx-border-radius: 20;" +
                 "-fx-border-width:10;" +
                 "-fx-border-color:grey;");
-        gridPane.add(titledPane, 1, 1);
-        gridPane.add(txtAreaDisplay, 2, 1);
+        felirat.setText("Vezérlő panel");
+        felirat.setStyle("-fx-font-size: 22px;" +
+                "-fx-text-fill: white;" +
+                "-fx-font-weight: bold;");
+        gridPane.add(felirat, 1, 1);
+        gridPane.add(titledPane, 1, 2);
+        gridPane.add(txtAreaDisplay, 2, 2);
         ColumnConstraints columnConstraints = new ColumnConstraints(40);
         gridPane.getColumnConstraints().add(columnConstraints);
         GridPane.setMargin(txtAreaDisplay, new Insets(30, 10, 10, 60));
+        GridPane.setMargin(titledPane, new Insets(0, 20, 80, 20));
+        GridPane.setMargin(felirat, new Insets(20, 0, 0, 0));
 
 
         // Create a scene and place it in the stage
-        Scene scene = new Scene(gridPane, 450, 400);
+        Scene scene = new Scene(gridPane, 500, 400);
         primaryStage.setTitle("Szerver"); // Set the stage title
         primaryStage.setScene(scene); // Place the scene in the stage
         primaryStage.setResizable(true);
         primaryStage.getIcons().add(new Image("control.png"));
         primaryStage.show(); // Display the stage
-
-
-        /*Parent root = FXMLLoader.load(getClass().getResource("Szerver.fxml"));
-        Scene scene = new Scene(root);
-        primaryStage.setScene(scene);
-        primaryStage.show(); // Display the stage*/
 
         //create a new thread
         Thread t = new Thread(() -> {
@@ -117,8 +116,11 @@ public class Szerver extends Application {
                     Socket socket = serverSocket.accept();
                     KliensConn connection = new KliensConn(socket, this);
                     connectionList.add(connection);
+                    System.out.println(connection.nev);
 
-
+                    for (int i = 0; i < connectionList.size(); i++) {
+                        System.out.println(connectionList.get(i) + "\n");
+                    }
                     //create a new thread
                     Thread thread = new Thread(connection);
                     thread.start();
