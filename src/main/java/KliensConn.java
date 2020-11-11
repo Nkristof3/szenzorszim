@@ -47,6 +47,9 @@ public class KliensConn implements Runnable {
                 } else if (message.equals("Furdo") && !server.furdoBox.isSelected()) {
                     server.furdoBox.setSelected(true);
                     nev = "furdo";
+                } else if (message.equals("Haloszoba") && !server.furdoBox.isSelected()) {
+                    server.haloszobaBox.setSelected(true);
+                    nev = "haloszoba";
                 }
 
                 if (message.equals("be")) {

@@ -12,6 +12,7 @@ public class TaskRead implements Runnable {
     Nappali client2;
     Ebedlo client3;
     Furdo client4;
+    Haloszoba client5;
     DataInputStream input;
 
     //constructor
@@ -33,6 +34,11 @@ public class TaskRead implements Runnable {
     public TaskRead(Socket socket, Furdo client4) {
         this.socket = socket;
         this.client4 = client4;
+    }
+
+    public TaskRead(Socket socket, Haloszoba client5) {
+        this.socket = socket;
+        this.client5 = client5;
     }
 
     @Override
@@ -125,8 +131,25 @@ public class TaskRead implements Runnable {
                         //display the message in the textarea
                         client4.txtAreaDisplay.appendText(kiirat);
                     });
+                } else if (message.equals("+haloszoba")) {
+                    client5.scrollPane.setStyle("-fx-border-color: yellow;" +
+                            "-fx-border-width: 15;" +
+                            "-fx-opacity: 1.0");
+                    String kiirat = "Mozgás. " + new Date() + "\n";
+                    Platform.runLater(() -> {
+                        //display the message in the textarea
+                        client5.txtAreaDisplay.appendText(kiirat);
+                    });
+                } else if (message.equals("-haloszoba")) {
+                    client5.scrollPane.setStyle("-fx-border-color: black;" +
+                            "-fx-border-width: 15;" +
+                            "-fx-opacity: 0.5");
+                    String kiirat = "Mozgás vége. " + new Date() + "\n";
+                    Platform.runLater(() -> {
+                        //display the message in the textarea
+                        client5.txtAreaDisplay.appendText(kiirat);
+                    });
                 }
-
             } catch (IOException ex) {
                 System.out.println("Error reading from server: " + ex.getMessage());
                 ex.printStackTrace();
