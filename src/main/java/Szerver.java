@@ -1,6 +1,9 @@
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.EventHandler;
+import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.CheckBox;
@@ -14,16 +17,22 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+import javax.xml.crypto.Data;
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.TreeMap;
 
 public class Szerver extends Application {
     /*@FXML
     TextArea txtAreaDisplay;*/
+    DataInputStream inputStream;
+    DataOutputStream outputStream;
     public TextArea txtAreaDisplay;
     public CheckBox konyhaBox;
     public CheckBox nappaliBox;
@@ -31,7 +40,7 @@ public class Szerver extends Application {
     public CheckBox furdoBox;
     public CheckBox haloszobaBox;
     private Label felirat;
-    List<KliensConn> connectionList = new ArrayList<KliensConn>();
+    TreeMap<String, KliensConn> connTreeMap = new TreeMap<>();
     ServerSocket serverSocket;
     /*@FXML
     CheckBox konyhaBox;*/
@@ -115,12 +124,13 @@ public class Szerver extends Application {
                     // Listen for a connection request, add new connection to the list
                     Socket socket = serverSocket.accept();
                     KliensConn connection = new KliensConn(socket, this);
-                    connectionList.add(connection);
-                    System.out.println(connection.nev);
 
-                    for (int i = 0; i < connectionList.size(); i++) {
-                        System.out.println(connectionList.get(i) + "\n");
-                    }
+                    String proba = "";
+                    inputStream = new DataInputStream(socket.getInputStream());
+                    outputStream = new DataOutputStream(socket.getOutputStream());
+                    proba = inputStream.readUTF();
+                    connTreeMap.put(proba, connection);
+
                     //create a new thread
                     Thread thread = new Thread(connection);
                     thread.start();
@@ -140,7 +150,7 @@ public class Szerver extends Application {
     }
 
     public void broadcast(String message) {
-        for (KliensConn clientConnection : this.connectionList) {
+        for (KliensConn clientConnection : this.connTreeMap.values()) {
             clientConnection.sendMessage(message);
         }
     }
