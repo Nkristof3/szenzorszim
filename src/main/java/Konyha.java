@@ -1,4 +1,5 @@
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -33,7 +34,9 @@ public class Konyha extends Application {
 
     @Override
     public void stop() throws Exception {
+        Platform.exit();
         socket.close();
+        System.exit(0);
     }
 
     @Override
@@ -93,6 +96,7 @@ public class Konyha extends Application {
 
             // Create an output stream to send data to the server
             output = new DataOutputStream(socket.getOutputStream());
+            output.writeUTF(txtName);
             output.writeUTF(txtName);
             //create a thread in order to read message from server continuously
             TaskRead task = new TaskRead(socket, this);

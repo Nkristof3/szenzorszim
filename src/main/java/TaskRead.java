@@ -149,11 +149,23 @@ public class TaskRead implements Runnable {
                         //display the message in the textarea
                         client5.txtAreaDisplay.appendText(kiirat);
                     });
+                } else if (message.equals("e-")){
+                    client3.stop();
+                } else  if (message.equals("k-")){
+                    client.stop();
+                } else if (message.equals("n-")){
+                    client2.stop();
+                } else if (message.equals("f-")){
+                    client4.stop();
+                } else if (message.equals("h-")){
+                    client5.stop();
                 }
             } catch (IOException ex) {
                 System.out.println("Error reading from server: " + ex.getMessage());
                 ex.printStackTrace();
                 break;
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
     }
