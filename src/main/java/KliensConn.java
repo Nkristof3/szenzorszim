@@ -1,4 +1,6 @@
 import javafx.application.Platform;
+import javafx.beans.InvalidationListener;
+import javafx.beans.Observable;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 
@@ -71,82 +73,44 @@ public class KliensConn implements Runnable {
                     });
                 }
 
-                server.ebedloBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+                server.ebedloBox.selectedProperty().addListener(new InvalidationListener() {
                     @Override
-                    public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                        if(!server.ebedloBox.isSelected()){
-                            if(server.connTreeMap.containsKey("Ebedlo")){
-                                KliensConn conn = server.connTreeMap.get("Ebedlo");
-                                server.connTreeMap.remove("Ebedlo");
-                                sendMessage("e-");
-                                //conn.socket.close();
-                            }
-                        }
+                    public void invalidated(Observable observable) {
+                        KliensConn conn = server.connTreeMap.get("Ebedlo");
+                        server.connTreeMap.remove("Ebedlo");
+                        sendMessage("e-");
                     }
                 });
-                server.konyhaBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+                server.konyhaBox.selectedProperty().addListener(new InvalidationListener() {
                     @Override
-                    public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                        if(!server.konyhaBox.isSelected()){
-                            if(server.connTreeMap.containsKey("Konyha")){
-                                KliensConn conn = server.connTreeMap.get("Konyha");
-                                server.connTreeMap.remove("Konyha");
-                                sendMessage("k-");
-                                //conn.socket.close();
-                            }
-                        }
+                    public void invalidated(Observable observable) {
+                        KliensConn conn = server.connTreeMap.get("Konyha");
+                        server.connTreeMap.remove("Konyha");
+                        sendMessage("k-");
                     }
                 });
-                server.nappaliBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+                server.nappaliBox.selectedProperty().addListener(new InvalidationListener() {
                     @Override
-                    public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                        if(!server.nappaliBox.isSelected()){
-                            if(server.connTreeMap.containsKey("Nappali")){
-                                KliensConn conn = server.connTreeMap.get("Nappali");
-                                server.connTreeMap.remove("Nappali");
-                                try {
-                                    sendMessage("n-");
-                                    conn.socket.close();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
+                    public void invalidated(Observable observable) {
+                        KliensConn conn = server.connTreeMap.get("Nappali");
+                        server.connTreeMap.remove("Nappali");
+                        sendMessage("n-");
                     }
                 });
-
-                server.furdoBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+                server.furdoBox.selectedProperty().addListener(new InvalidationListener() {
                     @Override
-                    public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                        if(!server.furdoBox.isSelected()){
-                            if(server.connTreeMap.containsKey("Furdo")){
-                                KliensConn conn = server.connTreeMap.get("Furdo");
-                                server.connTreeMap.remove("Furdo");
-                                try {
-                                    sendMessage("f-");
-                                    conn.socket.close();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
+                    public void invalidated(Observable observable) {
+                        KliensConn conn = server.connTreeMap.get("Furdo");
+                        sendMessage("f-");
+                        server.connTreeMap.remove("Furdo");
                     }
                 });
-                server.haloszobaBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
+                server.haloszobaBox.selectedProperty().addListener(new InvalidationListener() {
                     @Override
-                    public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                        if(!server.haloszobaBox.isSelected()){
-                            if(server.connTreeMap.containsKey("Haloszoba")){
-                                KliensConn conn = server.connTreeMap.get("Haloszoba");
-                                server.connTreeMap.remove("Haloszoba");
-                                try {
-                                    sendMessage("h-");
-                                    conn.socket.close();
-                                } catch (IOException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
+                    public void invalidated(Observable observable) {
+                        KliensConn conn = server.connTreeMap.get("Haloszoba");
+                        server.connTreeMap.remove("Haloszoba");
+                        sendMessage("h-");
                     }
                 });
             }

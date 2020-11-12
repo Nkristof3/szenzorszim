@@ -8,7 +8,7 @@ import java.util.Date;
 public class TaskRead implements Runnable {
     //private variables
     Socket socket;
-    Konyha client;
+    public Konyha client;
     Nappali client2;
     Ebedlo client3;
     Furdo client4;
@@ -151,7 +151,7 @@ public class TaskRead implements Runnable {
                     });
                 } else if (message.equals("e-")){
                     client3.stop();
-                } else  if (message.equals("k-")){
+                } else if (message.equals("k-")){
                     client.stop();
                 } else if (message.equals("n-")){
                     client2.stop();
