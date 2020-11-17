@@ -62,9 +62,11 @@ public class Haloszoba extends Application {
         GridPane.setMargin(scrollPane, new Insets(10, 10, 10, 10));
         GridPane.setMargin(txtAreaDisplay, new Insets(10, 10, 10, 10));
 
+        int homerseklet = (int) (Math.random() * (30 - 16 + 1) + 16);
         vBox.hoverProperty().addListener((ChangeListener<Boolean>) (observable, value, newValue) -> {
             if (newValue) {
                 try {
+                    output.writeUTF(String.valueOf(homerseklet));
                     output.writeUTF("be");
                 } catch (IOException e) {
                     e.printStackTrace();

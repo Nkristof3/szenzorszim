@@ -57,9 +57,10 @@ public class KliensConn implements Runnable {
                     nev = "haloszoba";
                 }
 
-                if (message.equals("be")) {
+                if (message.equals("be") ) {
                     sendMessage("+" + nev);
                     String log = "Mozgás: " + nev + " " + new Date() + "\n";
+
                     //append message of the Text Area of UI (GUI Thread)
                     Platform.runLater(() -> {
                         server.txtAreaDisplay.appendText(log);
@@ -71,6 +72,60 @@ public class KliensConn implements Runnable {
                     Platform.runLater(() -> {
                         server.txtAreaDisplay.appendText(log);
                     });
+                }
+
+                char[] str = message.toCharArray();
+                if( Character.isDigit(str[0]))
+                {
+                    String log = "Hőmérséklet: " + message + "\n";
+
+                    int homerseklet = Integer.parseInt(message);
+                    int futes = 0;
+                    int hutes = 0;
+
+                    if( homerseklet < 20 )
+                    {
+                        futes = 1;
+                        while(homerseklet != 20 )
+                            homerseklet++;
+
+                    }
+                    else if ( homerseklet > 28 )
+                    {
+                        hutes = 1;
+                        while( homerseklet != 24 )
+                            homerseklet--;
+
+                    }
+
+
+                    if( futes == 1 )
+                    {
+                        String log1 = "Hőmérséklet fűtés után: " + homerseklet + "\n";
+                        sendMessage1(homerseklet + " " + message);
+                        //append message of the Text Area of UI (GUI Thread)
+                        Platform.runLater(() -> {
+                            server.txtAreaDisplay.appendText(log);
+                            server.txtAreaDisplay.appendText(log1);
+                        });
+                    }
+                    else if( hutes == 1 )
+                    {
+                        String log1 = "Hőmérséklet hűtés után: " + homerseklet + "\n";
+                        sendMessage1(homerseklet + " " + message );
+                        //append message of the Text Area of UI (GUI Thread)
+                        Platform.runLater(() -> {
+                            server.txtAreaDisplay.appendText(log);
+                            server.txtAreaDisplay.appendText(log1);
+                        });
+                    }
+                    else if ( hutes != 1 && futes != 1 )
+                    {
+                        sendMessage1(message);
+                        Platform.runLater(() -> {
+                            server.txtAreaDisplay.appendText(log + "\n" + "Nem igényel változtatást. \n");
+                        });
+                    }
                 }
 
                 server.ebedloBox.selectedProperty().addListener(new InvalidationListener() {
@@ -131,6 +186,17 @@ public class KliensConn implements Runnable {
 
     //send message back to client
     public void sendMessage(String message) {
+        try {
+            output.writeUTF(message);
+            output.flush();
+
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+
+    }
+
+    public void sendMessage1(String message) {
         try {
             output.writeUTF(message);
             output.flush();

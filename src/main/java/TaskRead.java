@@ -14,6 +14,7 @@ public class TaskRead implements Runnable {
     Furdo client4;
     Haloszoba client5;
     DataInputStream input;
+    int homerseklet = 0;
 
     //constructor
     public TaskRead(Socket socket, Konyha client) {
@@ -51,6 +52,7 @@ public class TaskRead implements Runnable {
 
                 //get input from the server
                 String message = input.readUTF();
+                System.out.println("Taskread: " + message);
 
                 if (message.equals("+konyha")) {
                     client.scrollPane.setStyle("-fx-border-color: yellow;" +
@@ -58,7 +60,7 @@ public class TaskRead implements Runnable {
                             "-fx-opacity: 1.0");
 
                     //append message of the Text Area of UI (GUI Thread)
-                    String kiirat = "Mozgás. " + new Date() + "\n";
+                    String kiirat = "Mozgás. " + new Date() + "\n" + "Hőmérséklet: " + homerseklet + "\n";
                     Platform.runLater(() -> {
                         //display the message in the textarea
                         client.txtAreaDisplay.appendText(kiirat);
@@ -68,7 +70,8 @@ public class TaskRead implements Runnable {
                     client2.scrollPane.setStyle("-fx-border-color: yellow;" +
                             "-fx-border-width: 15;" +
                             "-fx-opacity: 1.0");
-                    String kiirat = "Mozgás. " + new Date() + "\n";
+                    //String kiirat = "Mozgás. " + new Date() + "\n";
+                    String kiirat = "Mozgás. " + new Date() + "\n" + "Hőmérséklet: " + homerseklet + "\n";
                     Platform.runLater(() -> {
                         //display the message in the textarea
                         client2.txtAreaDisplay.appendText(kiirat);
@@ -78,7 +81,8 @@ public class TaskRead implements Runnable {
                     client3.scrollPane.setStyle("-fx-border-color: yellow;" +
                             "-fx-border-width: 15;" +
                             "-fx-opacity: 1.0");
-                    String kiirat = "Mozgás. " + new Date() + "\n";
+                    //String kiirat = "Mozgás. " + new Date() + "\n";
+                    String kiirat = "Mozgás. " + new Date() + "\n" + "Hőmérséklet: " + homerseklet + "\n";
                     Platform.runLater(() -> {
                         //display the message in the textarea
                         client3.txtAreaDisplay.appendText(kiirat);
@@ -117,7 +121,8 @@ public class TaskRead implements Runnable {
                     client4.scrollPane.setStyle("-fx-border-color: yellow;" +
                             "-fx-border-width: 15;" +
                             "-fx-opacity: 1.0");
-                    String kiirat = "Mozgás. " + new Date() + "\n";
+                    //String kiirat = "Mozgás. " + new Date() + "\n";
+                    String kiirat = "Mozgás. " + new Date() + "\n" + "Hőmérséklet: " + homerseklet + "\n";
                     Platform.runLater(() -> {
                         //display the message in the textarea
                         client4.txtAreaDisplay.appendText(kiirat);
@@ -135,7 +140,8 @@ public class TaskRead implements Runnable {
                     client5.scrollPane.setStyle("-fx-border-color: yellow;" +
                             "-fx-border-width: 15;" +
                             "-fx-opacity: 1.0");
-                    String kiirat = "Mozgás. " + new Date() + "\n";
+                    //String kiirat = "Mozgás. " + new Date() + "\n";
+                    String kiirat = "Mozgás. " + new Date() + "\n" + "Hőmérséklet: " + homerseklet + "\n";
                     Platform.runLater(() -> {
                         //display the message in the textarea
                         client5.txtAreaDisplay.appendText(kiirat);
@@ -159,7 +165,12 @@ public class TaskRead implements Runnable {
                     client4.stop();
                 } else if (message.equals("h-")){
                     client5.stop();
+                }else
+                {
+                    String[] hom = message.split(" ");
+                    homerseklet = Integer.parseInt(hom[0]);
                 }
+
             } catch (IOException ex) {
                 System.out.println("Error reading from server: " + ex.getMessage());
                 ex.printStackTrace();

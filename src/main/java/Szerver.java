@@ -129,6 +129,7 @@ public class Szerver extends Application {
                     inputStream = new DataInputStream(socket.getInputStream());
                     outputStream = new DataOutputStream(socket.getOutputStream());
                     proba = inputStream.readUTF();
+                    //System.out.println("PROBA" + proba);
                     connTreeMap.put(proba, connection);
 
                     //create a new thread

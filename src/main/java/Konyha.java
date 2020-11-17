@@ -62,9 +62,11 @@ public class Konyha extends Application {
         GridPane.setMargin(scrollPane, new Insets(10, 10, 10, 10));
         GridPane.setMargin(txtAreaDisplay, new Insets(10, 10, 10, 10));
 
+        int homerseklet = (int) (Math.random() * (30 - 16 + 1) + 16);
         vBox.hoverProperty().addListener((ChangeListener<Boolean>) (observable, value, newValue) -> {
             if (newValue) {
                 try {
+                    output.writeUTF(String.valueOf(homerseklet));
                     output.writeUTF("be");
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -87,6 +89,8 @@ public class Konyha extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
 
+
+
         try {
             // Create a socket to connect to the server
             socket = new Socket(Connect.host, Connect.port);
@@ -98,6 +102,8 @@ public class Konyha extends Application {
             output = new DataOutputStream(socket.getOutputStream());
             output.writeUTF(txtName);
             output.writeUTF(txtName);
+
+
             //create a thread in order to read message from server continuously
             TaskRead task = new TaskRead(socket, this);
             Thread thread = new Thread(task);
