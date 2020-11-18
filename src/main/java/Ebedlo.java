@@ -27,6 +27,7 @@ public class Ebedlo extends Application {
     public GridPane gridPane;
     public ScrollPane scrollPane;
     public TextArea txtAreaDisplay;
+    public int homerseklet;
 
     // IO streams
     DataOutputStream output = null;
@@ -62,11 +63,11 @@ public class Ebedlo extends Application {
         GridPane.setMargin(scrollPane, new Insets(10, 10, 10, 10));
         GridPane.setMargin(txtAreaDisplay, new Insets(10, 10, 10, 10));
 
-        int homerseklet = (int) (Math.random() * (30 - 16 + 1) + 16);
+        homerseklet = (int) (Math.random() * (30 - 16 + 1) + 16);
         vBox.hoverProperty().addListener((ChangeListener<Boolean>) (observable, value, newValue) -> {
             if (newValue) {
                 try {
-                    output.writeUTF(String.valueOf(homerseklet));
+                    output.writeUTF(homerseklet + " " +txtName);
                     output.writeUTF("be");
                 } catch (IOException e) {
                     e.printStackTrace();

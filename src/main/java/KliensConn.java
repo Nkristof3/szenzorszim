@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.sql.Time;
 import java.util.Date;
+import java.util.concurrent.TimeUnit;
 
 public class KliensConn implements Runnable {
     Socket socket;
@@ -55,9 +56,7 @@ public class KliensConn implements Runnable {
                 } else if (message.equals("Haloszoba") && !server.furdoBox.isSelected()) {
                     server.haloszobaBox.setSelected(true);
                     nev = "haloszoba";
-                }
-
-                if (message.equals("be") ) {
+                } else if (message.equals("be") ) {
                     sendMessage("+" + nev);
                     String log = "Mozgás: " + nev + " " + new Date() + "\n";
 
@@ -67,63 +66,64 @@ public class KliensConn implements Runnable {
                     });
                 } else if (message.equals("ki")) {
                     sendMessage("-" + nev);
-                    String log = "Mozgás vége: " + nev + " " + new Date() + "\n";
+                    String log = "Mozgás vége: " + nev + " " + new Date() + "\n\n";
                     //append message of the Text Area of UI (GUI Thread)
                     Platform.runLater(() -> {
                         server.txtAreaDisplay.appendText(log);
                     });
-                }
+                } else {
+                    String[] str = message.split(" ");
+                    String log = "Hőmérséklet: " + str[0] + "\n";
 
-                char[] str = message.toCharArray();
-                if( Character.isDigit(str[0]))
-                {
-                    String log = "Hőmérséklet: " + message + "\n";
-
-                    int homerseklet = Integer.parseInt(message);
+                    int homerseklet = Integer.parseInt(str[0]);
                     int futes = 0;
                     int hutes = 0;
 
-                    if( homerseklet < 20 )
+                    if( homerseklet < 22 )
                     {
                         futes = 1;
-                        while(homerseklet != 20 )
-                            homerseklet++;
-
                     }
-                    else if ( homerseklet > 28 )
+                    else if ( homerseklet > 27 )
                     {
                         hutes = 1;
-                        while( homerseklet != 24 )
-                            homerseklet--;
-
                     }
 
 
                     if( futes == 1 )
                     {
+                        server.txtAreaDisplay.appendText(log + "Fűtés.\n");
+                        sendMessage("+" + str[1].toLowerCase());
+                        while (homerseklet != 22){
+                            String string = "";
+                            homerseklet++;
+                            string = string + "Hőmérséklet: " + homerseklet + "\n";
+                            server.txtAreaDisplay.appendText(string);
+                            Thread.sleep(1000);
+                            sendMessage1(homerseklet + " " + str[1]);
+                        }
                         String log1 = "Hőmérséklet fűtés után: " + homerseklet + "\n";
-                        sendMessage1(homerseklet + " " + message);
-                        //append message of the Text Area of UI (GUI Thread)
-                        Platform.runLater(() -> {
-                            server.txtAreaDisplay.appendText(log);
-                            server.txtAreaDisplay.appendText(log1);
-                        });
+                        server.txtAreaDisplay.appendText(log1);
                     }
                     else if( hutes == 1 )
                     {
+                        server.txtAreaDisplay.appendText(log + "Hűtés.\n");
+                        sendMessage("+" + str[1].toLowerCase());
+                        while (homerseklet != 27){
+                            String string = "";
+                            homerseklet--;
+                            string = string + "Hőmérséklet: " + homerseklet + "\n";
+                            server.txtAreaDisplay.appendText(string);
+                            Thread.sleep(1000);
+                            sendMessage1(homerseklet + " " + str[1]);
+                        }
                         String log1 = "Hőmérséklet hűtés után: " + homerseklet + "\n";
-                        sendMessage1(homerseklet + " " + message );
-                        //append message of the Text Area of UI (GUI Thread)
-                        Platform.runLater(() -> {
-                            server.txtAreaDisplay.appendText(log);
-                            server.txtAreaDisplay.appendText(log1);
-                        });
+                        server.txtAreaDisplay.appendText(log1);
                     }
                     else if ( hutes != 1 && futes != 1 )
                     {
                         sendMessage1(message);
                         Platform.runLater(() -> {
-                            server.txtAreaDisplay.appendText(log + "\n" + "Nem igényel változtatást. \n");
+                            server.txtAreaDisplay.appendText(log + "Nem igényel változtatást." + "\n");
                         });
                     }
                 }
@@ -171,7 +171,7 @@ public class KliensConn implements Runnable {
             }
 
 
-        } catch (IOException ex) {
+        } catch (IOException | InterruptedException ex) {
             ex.printStackTrace();
         } finally {
             try {

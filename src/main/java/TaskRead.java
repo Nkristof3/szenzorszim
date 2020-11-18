@@ -169,6 +169,17 @@ public class TaskRead implements Runnable {
                 {
                     String[] hom = message.split(" ");
                     homerseklet = Integer.parseInt(hom[0]);
+                    if(hom[1].equals("Konyha")){
+                        client.homerseklet = homerseklet;
+                    } else if (hom[1].equals("Nappali")){
+                        client2.homerseklet = homerseklet;
+                    } else if (hom[1].equals("Ebedlo")){
+                        client3.homerseklet = homerseklet;
+                    } else if (hom[1].equals("Furdo")){
+                        client4.homerseklet = homerseklet;
+                    } else if (hom[1].equals("Haloszoba")){
+                        client5.homerseklet = homerseklet;
+                    }
                 }
 
             } catch (IOException ex) {
