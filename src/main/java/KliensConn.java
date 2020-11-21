@@ -49,7 +49,7 @@ public class KliensConn implements Runnable {
                     nev = "nappali";
                 } else if (message.equals("Ebedlo") && !server.nappaliBox.isSelected()) {
                     server.ebedloBox.setSelected(true);
-                    nev = "ebédlő";
+                    nev = "ebedlo";
                 } else if (message.equals("Furdo") && !server.furdoBox.isSelected()) {
                     server.furdoBox.setSelected(true);
                     nev = "furdo";
@@ -73,59 +73,8 @@ public class KliensConn implements Runnable {
                     });
                 } else {
                     String[] str = message.split(" ");
-                    String log = "Hőmérséklet: " + str[0] + "\n";
+                    homersekletElemzo(message, str[1], Integer.parseInt(str[0]));
 
-                    int homerseklet = Integer.parseInt(str[0]);
-                    int futes = 0;
-                    int hutes = 0;
-
-                    if( homerseklet < 22 )
-                    {
-                        futes = 1;
-                    }
-                    else if ( homerseklet > 27 )
-                    {
-                        hutes = 1;
-                    }
-
-
-                    if( futes == 1 )
-                    {
-                        server.txtAreaDisplay.appendText(log + "Fűtés.\n");
-                        sendMessage("+" + str[1].toLowerCase());
-                        while (homerseklet != 22){
-                            String string = "";
-                            homerseklet++;
-                            string = string + "Hőmérséklet: " + homerseklet + "\n";
-                            server.txtAreaDisplay.appendText(string);
-                            Thread.sleep(1000);
-                            sendMessage1(homerseklet + " " + str[1]);
-                        }
-                        String log1 = "Hőmérséklet fűtés után: " + homerseklet + "\n";
-                        server.txtAreaDisplay.appendText(log1);
-                    }
-                    else if( hutes == 1 )
-                    {
-                        server.txtAreaDisplay.appendText(log + "Hűtés.\n");
-                        sendMessage("+" + str[1].toLowerCase());
-                        while (homerseklet != 27){
-                            String string = "";
-                            homerseklet--;
-                            string = string + "Hőmérséklet: " + homerseklet + "\n";
-                            server.txtAreaDisplay.appendText(string);
-                            Thread.sleep(1000);
-                            sendMessage1(homerseklet + " " + str[1]);
-                        }
-                        String log1 = "Hőmérséklet hűtés után: " + homerseklet + "\n";
-                        server.txtAreaDisplay.appendText(log1);
-                    }
-                    else if ( hutes != 1 && futes != 1 )
-                    {
-                        sendMessage1(message);
-                        Platform.runLater(() -> {
-                            server.txtAreaDisplay.appendText(log + "Nem igényel változtatást." + "\n");
-                        });
-                    }
                 }
 
                 server.ebedloBox.selectedProperty().addListener(new InvalidationListener() {
@@ -182,6 +131,86 @@ public class KliensConn implements Runnable {
 
         }
 
+    }
+
+    public Integer kisebbVNagyobb(int homerseklet, int beallitottHomerseklet){
+        if( homerseklet < beallitottHomerseklet )
+        {
+            return 1;
+        }
+        else if ( homerseklet > beallitottHomerseklet)
+        {
+            return 2;
+        }
+        else return 0;
+    }
+
+    public void homersekletElemzo(String message, String kliensNev, int kliensHomerseklet) throws InterruptedException {
+        String log = "Hőmérséklet: " + kliensHomerseklet + " " + kliensNev + "\n";
+        int homerseklet = kliensHomerseklet;
+        int futes = 3;
+        int hutes = 3;
+        int beallitottHomerseklet = 0;
+
+        if(kliensNev.equals("Konyha")) {
+            futes = kisebbVNagyobb(kliensHomerseklet, (int)server.konyhaCBox.getValue());
+            hutes = kisebbVNagyobb(kliensHomerseklet, (int)server.konyhaCBox.getValue());
+            beallitottHomerseklet = (int)server.konyhaCBox.getValue();
+        } else if(kliensNev.equals("Ebedlo")) {
+            futes = kisebbVNagyobb(kliensHomerseklet, (int)server.ebedloCBox.getValue());
+            hutes = kisebbVNagyobb(kliensHomerseklet, (int)server.ebedloCBox.getValue());
+            beallitottHomerseklet = (int)server.ebedloCBox.getValue();
+        } else if(kliensNev.equals("Haloszoba")) {
+            futes = kisebbVNagyobb(kliensHomerseklet, (int)server.haloszobaCBox.getValue());
+            hutes = kisebbVNagyobb(kliensHomerseklet, (int)server.haloszobaCBox.getValue());
+            beallitottHomerseklet = (int)server.haloszobaCBox.getValue();
+        } else if(kliensNev.equals("Furdo")) {
+            futes = kisebbVNagyobb(kliensHomerseklet, (int)server.furdoCBox.getValue());
+            hutes = kisebbVNagyobb(kliensHomerseklet, (int)server.furdoCBox.getValue());
+            beallitottHomerseklet = (int)server.furdoCBox.getValue();
+        } else if(kliensNev.equals("Nappali")) {
+            futes = kisebbVNagyobb(kliensHomerseklet, (int)server.nappaliCBox.getValue());
+            hutes = kisebbVNagyobb(kliensHomerseklet, (int)server.nappaliCBox.getValue());
+            beallitottHomerseklet = (int)server.nappaliCBox.getValue();
+        }
+
+        if( futes == 1 )
+        {
+            server.txtAreaDisplay.appendText(log + "Fűtés.\n");
+            sendMessage("+" + kliensNev.toLowerCase());
+            while (homerseklet != beallitottHomerseklet){
+                String string = "";
+                homerseklet++;
+                string = string + "Hőmérséklet: " + homerseklet + "\n";
+                server.txtAreaDisplay.appendText(string);
+                Thread.sleep(1000);
+                sendMessage1(homerseklet + " " + kliensNev);
+            }
+            String log1 = "Hőmérséklet fűtés után: " + homerseklet + "\n";
+            server.txtAreaDisplay.appendText(log1);
+        }
+        else if( hutes == 2 )
+        {
+            server.txtAreaDisplay.appendText(log + "Hűtés.\n");
+            sendMessage("+" + kliensNev.toLowerCase());
+            while (homerseklet != beallitottHomerseklet){
+                String string = "";
+                homerseklet--;
+                string = string + "Hőmérséklet: " + homerseklet + "\n";
+                server.txtAreaDisplay.appendText(string);
+                Thread.sleep(1000);
+                sendMessage1(homerseklet + " " + kliensNev);
+            }
+            String log1 = "Hőmérséklet hűtés után: " + homerseklet + "\n";
+            server.txtAreaDisplay.appendText(log1);
+        }
+        else if ( hutes == 0 && futes == 0 )
+        {
+            sendMessage1(message);
+            Platform.runLater(() -> {
+                server.txtAreaDisplay.appendText(log + "Nem igényel változtatást." + "\n");
+            });
+        }
     }
 
     //send message back to client

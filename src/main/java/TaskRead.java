@@ -14,7 +14,7 @@ public class TaskRead implements Runnable {
     Furdo client4;
     Haloszoba client5;
     DataInputStream input;
-    int homerseklet = 0;
+    int homerseklet;
 
     //constructor
     public TaskRead(Socket socket, Konyha client) {
@@ -77,7 +77,7 @@ public class TaskRead implements Runnable {
                         client2.txtAreaDisplay.appendText(kiirat);
                     });
                 }
-                else if (message.equals("+ebédlő")){
+                else if (message.equals("+ebedlo")){
                     client3.scrollPane.setStyle("-fx-border-color: yellow;" +
                             "-fx-border-width: 15;" +
                             "-fx-opacity: 1.0");
@@ -108,7 +108,7 @@ public class TaskRead implements Runnable {
                         client2.txtAreaDisplay.appendText(kiirat);
                     });
                 }
-                else if (message.equals("-ebédlő")){
+                else if (message.equals("-ebedlo")){
                     client3.scrollPane.setStyle("-fx-border-color: black;" +
                             "-fx-border-width: 15;" +
                             "-fx-opacity: 0.5");
@@ -140,7 +140,6 @@ public class TaskRead implements Runnable {
                     client5.scrollPane.setStyle("-fx-border-color: yellow;" +
                             "-fx-border-width: 15;" +
                             "-fx-opacity: 1.0");
-                    //String kiirat = "Mozgás. " + new Date() + "\n";
                     String kiirat = "Mozgás. " + new Date() + "\n" + "Hőmérséklet: " + homerseklet + "\n";
                     Platform.runLater(() -> {
                         //display the message in the textarea
