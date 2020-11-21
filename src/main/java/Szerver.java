@@ -1,20 +1,18 @@
 import javafx.application.Application;
 import javafx.application.Platform;
+import javafx.beans.InvalidationListener;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
+import javafx.collections.FXCollections;
+import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.event.EventType;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TitledPane;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
-import javafx.scene.layout.ColumnConstraints;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.RowConstraints;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Stage;
 
 import javax.xml.crypto.Data;
@@ -23,10 +21,7 @@ import java.io.DataOutputStream;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.TreeMap;
+import java.util.*;
 
 public class Szerver extends Application {
     /*@FXML
@@ -39,6 +34,11 @@ public class Szerver extends Application {
     public CheckBox ebedloBox;
     public CheckBox furdoBox;
     public CheckBox haloszobaBox;
+    public ComboBox konyhaCBox;
+    public ComboBox nappaliCBox;
+    public ComboBox ebedloCBox;
+    public ComboBox furdoCBox;
+    public ComboBox haloszobaCBox;
     private Label felirat;
     TreeMap<String, KliensConn> connTreeMap = new TreeMap<>();
     ServerSocket serverSocket;
@@ -60,15 +60,48 @@ public class Szerver extends Application {
         txtAreaDisplay.setPrefWidth(330);
         konyhaBox = new CheckBox();
         konyhaBox.setText("Konyha");
+        konyhaBox.setMinWidth(80);
         nappaliBox = new CheckBox();
+        nappaliBox.setMinWidth(80);
         nappaliBox.setText("Nappali");
         ebedloBox = new CheckBox();
         ebedloBox.setText("Ebédlő");
+        ebedloBox.setMinWidth(80);
         furdoBox = new CheckBox();
         furdoBox.setText("Fürdő");
+        furdoBox.setMinWidth(80);
         haloszobaBox = new CheckBox();
         haloszobaBox.setText("Hálószoba");
+        haloszobaBox.setMinWidth(80);
+
+        ObservableList<Integer> oList = FXCollections.observableArrayList(16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30);
+        konyhaCBox = new ComboBox();
+        konyhaCBox.setItems(oList);
+        konyhaCBox.setMinWidth(55);
+        konyhaCBox.getSelectionModel().select(6);
+
+        nappaliCBox = new ComboBox();
+        nappaliCBox.setItems(oList);
+        nappaliCBox.setMinWidth(55);
+        nappaliCBox.getSelectionModel().select(6);
+
+        ebedloCBox = new ComboBox();
+        ebedloCBox.setItems(oList);
+        ebedloCBox.setMinWidth(55);
+        ebedloCBox.getSelectionModel().select(6);
+
+        furdoCBox = new ComboBox();
+        furdoCBox.setItems(oList);
+        furdoCBox.setMinWidth(55);
+        furdoCBox.getSelectionModel().select(6);
+
+        haloszobaCBox = new ComboBox();
+        haloszobaCBox.setItems(oList);
+        haloszobaCBox.setMinWidth(55);
+        haloszobaCBox.getSelectionModel().select(6);
+
         felirat = new Label();
+        ColumnConstraints columnConstraints = new ColumnConstraints(40);
 
         RowConstraints con = new RowConstraints();
         con.setPrefHeight(30);
@@ -76,8 +109,18 @@ public class Szerver extends Application {
         GridPane gridPane = new GridPane();
         TitledPane titledPane = new TitledPane();
 
-        VBox vBox = new VBox(10);
-        vBox.getChildren().addAll(konyhaBox, nappaliBox, ebedloBox, furdoBox,haloszobaBox);
+        VBox vBox = new VBox(15);
+        HBox hbox1 = new HBox(konyhaBox, konyhaCBox);
+        hbox1.setSpacing(40);
+        HBox hbox2 = new HBox(nappaliBox, nappaliCBox);
+        hbox2.setSpacing(40);
+        HBox hbox3 = new HBox(ebedloBox, ebedloCBox);
+        hbox3.setSpacing(40);
+        HBox hbox4 = new HBox(furdoBox, furdoCBox);
+        hbox4.setSpacing(40);
+        HBox hbox5 = new HBox(haloszobaBox, haloszobaCBox);
+        hbox5.setSpacing(40);
+        vBox.getChildren().addAll(hbox1, hbox2, hbox3, hbox4, hbox5);
         titledPane.setContent(vBox);
         titledPane.setText("Csatlakozott: ");
 
@@ -94,10 +137,9 @@ public class Szerver extends Application {
         gridPane.add(felirat, 1, 1);
         gridPane.add(titledPane, 1, 2);
         gridPane.add(txtAreaDisplay, 2, 2);
-        ColumnConstraints columnConstraints = new ColumnConstraints(40);
         gridPane.getColumnConstraints().add(columnConstraints);
-        GridPane.setMargin(txtAreaDisplay, new Insets(30, 10, 10, 60));
-        GridPane.setMargin(titledPane, new Insets(0, 20, 80, 20));
+        GridPane.setMargin(txtAreaDisplay, new Insets(0, 20, 20, 60));
+        GridPane.setMargin(titledPane, new Insets(0, 20, 80, 0));
         GridPane.setMargin(felirat, new Insets(20, 0, 0, 0));
 
 
