@@ -65,6 +65,7 @@ public class Nappali extends Application {
         GridPane.setMargin(txtAreaDisplay, new Insets(10, 10, 10, 10));
 
         homerseklet = (int) (Math.random() * (30 - 16 + 1) + 16);
+        //System.out.println(homerseklet);
         vBox.hoverProperty().addListener((ChangeListener<Boolean>) (observable, value, newValue) -> {
             if (newValue) {
                 try {
@@ -101,6 +102,7 @@ public class Nappali extends Application {
             // Create an output stream to send data to the server
             output = new DataOutputStream(socket.getOutputStream());
             output.writeUTF(txtName);
+            //System.out.println(txtName);
             output.writeUTF(txtName);
             //create a thread in order to read message from server continuously
             TaskRead task = new TaskRead(socket, this);

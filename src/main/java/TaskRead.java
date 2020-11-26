@@ -52,7 +52,7 @@ public class TaskRead implements Runnable {
 
                 //get input from the server
                 String message = input.readUTF();
-                System.out.println("Taskread: " + message);
+                //System.out.println("Taskread: " + message);
 
                 if (message.equals("+konyha")) {
                     client.scrollPane.setStyle("-fx-border-color: yellow;" +
@@ -60,33 +60,37 @@ public class TaskRead implements Runnable {
                             "-fx-opacity: 1.0");
 
                     //append message of the Text Area of UI (GUI Thread)
+
+                    if( homerseklet != 0 ){
                     String kiirat = "Mozgás. " + new Date() + "\n" + "Hőmérséklet: " + homerseklet + "\n";
                     Platform.runLater(() -> {
                         //display the message in the textarea
                         client.txtAreaDisplay.appendText(kiirat);
-                    });
+                    });}
                 }
                 else if (message.equals("+nappali")){
                     client2.scrollPane.setStyle("-fx-border-color: yellow;" +
                             "-fx-border-width: 15;" +
                             "-fx-opacity: 1.0");
                     //String kiirat = "Mozgás. " + new Date() + "\n";
+                    if( homerseklet != 0 ){
                     String kiirat = "Mozgás. " + new Date() + "\n" + "Hőmérséklet: " + homerseklet + "\n";
                     Platform.runLater(() -> {
                         //display the message in the textarea
                         client2.txtAreaDisplay.appendText(kiirat);
-                    });
+                    });}
                 }
                 else if (message.equals("+ebedlo")){
                     client3.scrollPane.setStyle("-fx-border-color: yellow;" +
                             "-fx-border-width: 15;" +
                             "-fx-opacity: 1.0");
                     //String kiirat = "Mozgás. " + new Date() + "\n";
+                    if( homerseklet != 0 ){
                     String kiirat = "Mozgás. " + new Date() + "\n" + "Hőmérséklet: " + homerseklet + "\n";
                     Platform.runLater(() -> {
                         //display the message in the textarea
                         client3.txtAreaDisplay.appendText(kiirat);
-                    });
+                    });}
                 }
                 else if (message.equals("-konyha")){
                     client.scrollPane.setStyle("-fx-border-color: black;" +
@@ -122,11 +126,12 @@ public class TaskRead implements Runnable {
                             "-fx-border-width: 15;" +
                             "-fx-opacity: 1.0");
                     //String kiirat = "Mozgás. " + new Date() + "\n";
+                    if( homerseklet != 0 ){
                     String kiirat = "Mozgás. " + new Date() + "\n" + "Hőmérséklet: " + homerseklet + "\n";
                     Platform.runLater(() -> {
                         //display the message in the textarea
                         client4.txtAreaDisplay.appendText(kiirat);
-                    });
+                    });}
                 } else if (message.equals("-furdo")){
                     client4.scrollPane.setStyle("-fx-border-color: black;" +
                             "-fx-border-width: 15;" +
@@ -140,11 +145,13 @@ public class TaskRead implements Runnable {
                     client5.scrollPane.setStyle("-fx-border-color: yellow;" +
                             "-fx-border-width: 15;" +
                             "-fx-opacity: 1.0");
+
+                    if( homerseklet != 0 ){
                     String kiirat = "Mozgás. " + new Date() + "\n" + "Hőmérséklet: " + homerseklet + "\n";
                     Platform.runLater(() -> {
                         //display the message in the textarea
                         client5.txtAreaDisplay.appendText(kiirat);
-                    });
+                    });}
                 } else if (message.equals("-haloszoba")) {
                     client5.scrollPane.setStyle("-fx-border-color: black;" +
                             "-fx-border-width: 15;" +
